@@ -10,6 +10,8 @@ export default function MyForm() {
       img: "",
       name: "",
       brand: "",
+      author: "",
+      category: "",
       suplier: "",
       original: "",
       price: "",
@@ -20,6 +22,8 @@ export default function MyForm() {
       img: `${values.img}`,
       name: `${values.name}`,
       brand: `${values.brand}`,
+      author: `${values.author}`,
+      category: `${values.category}`,
       suplier: `${values.suplier}`,
       original: `${values.original}`,
       price: Number(values.price) || 0,
@@ -62,6 +66,20 @@ export default function MyForm() {
           mt='md'
           required
           {...form.getInputProps("brand")}
+        />
+        <TextInput
+          label='Author'
+          placeholder='Author'
+          mt='md'
+          required
+          {...form.getInputProps("author")}
+        />
+        <TextInput
+          label='Category'
+          placeholder='Category'
+          mt='md'
+          required
+          {...form.getInputProps("category")}
         />
         <TextInput
           label='Supplier'

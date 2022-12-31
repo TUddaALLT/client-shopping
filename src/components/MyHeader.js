@@ -1,31 +1,32 @@
+import { NotificationOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import {
-  createStyles,
-  Header,
-  HoverCard,
-  Group,
-  Button,
-  UnstyledButton,
-  Text,
-  SimpleGrid,
-  ThemeIcon,
   Anchor,
-  Divider,
-  Center,
   Box,
   Burger,
-  Drawer,
+  Button,
+  Center,
   Collapse,
+  createStyles,
+  Divider,
+  Drawer,
+  Group,
+  Header,
+  HoverCard,
   ScrollArea,
+  SimpleGrid,
+  Text,
+  ThemeIcon,
+  UnstyledButton,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
-  IconNotification,
-  IconCode,
   IconBook,
   IconChartPie3,
-  IconFingerprint,
-  IconCoin,
   IconChevronDown,
+  IconCode,
+  IconCoin,
+  IconFingerprint,
+  IconNotification,
 } from "@tabler/icons";
 import { Link } from "react-router-dom";
 const useStyles = createStyles((theme) => ({
@@ -152,7 +153,8 @@ function MyHeader() {
       </Group>
     </UnstyledButton>
   ));
-
+  function handleNotification() {}
+  function handleCart() {}
   return (
     <Box>
       <Header height={60} px='md'>
@@ -225,6 +227,20 @@ function MyHeader() {
           </Group>
 
           <Group className={classes.hiddenMobile}>
+            {/* <DarkMode></DarkMode> */}
+            <Button variant='default'>
+              <NotificationOutlined
+                style={{ fontSize: "20px", color: "#08c", cursor: "pointer" }}
+                onClick={handleNotification}
+              />
+            </Button>
+            <Button variant='default'>
+              <Link to='/cart' className={classes.link}>
+                <ShoppingCartOutlined
+                  style={{ fontSize: "20px", color: "#08c", cursor: "pointer" }}
+                />
+              </Link>
+            </Button>
             <Button variant='default'>
               <Link to='/login' className={classes.link}>
                 Login

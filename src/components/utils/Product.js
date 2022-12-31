@@ -11,16 +11,40 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Product = (props) => {
   const [value, setValue] = useState(1);
   let data = props.data;
-
   if (data.price > 1000) {
     data.price = Intl.NumberFormat("de-DE", {
       style: "currency",
       currency: "VND",
     }).format(data.price);
+  }
+  const token = localStorage.getItem("token");
+  console.log(value);
+  function addToCart() {
+    axios.interceptors.request.use(
+      (config) => {
+        config.headers["Authorization"] = `Token ${token}`;
+        config.headers["Access-Control-Allow-Origin"] = "*";
+        config.headers["Access-Control-Allow-Origin"] =
+          "GET,PUT,POST,DELETE,PATCH,OPTIONS";
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      },
+    );
+    axios
+      .post(`http://localhost:8888/cart/${data.id}/${value}`)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   return (
     <div style={{ padding: "8vh 10vw" }}>
@@ -46,7 +70,14 @@ const Product = (props) => {
               </Badge>
             </Group>
 
-            <Button variant='light' color='blue' fullWidth mt='md' radius='md'>
+            <Button
+              variant='light'
+              color='blue'
+              fullWidth
+              mt='md'
+              radius='md'
+              onClick={addToCart}
+            >
               Add To Cart
             </Button>
             <Button variant='light' color='blue' fullWidth mt='md' radius='md'>
@@ -61,7 +92,7 @@ const Product = (props) => {
             </Text>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div>
-                <p>Supplier: {data.supplier}</p>
+                <p>Supplier: {data.suplier}</p>
                 <p>Brand: {data.brand}</p>
               </div>
               <div style={{ paddingRight: "10vw" }}>

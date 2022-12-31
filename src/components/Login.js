@@ -53,6 +53,7 @@ const Login = (props: PaperProps) => {
       })
       .then(function (response) {
         console.log(response);
+        localStorage.setItem("token", response.data.data.token);
         if (response.data.data.username === "admin@gmail.com") {
           localStorage.setItem("admin", "admin");
         } else {
@@ -68,6 +69,7 @@ const Login = (props: PaperProps) => {
       })
       .catch(function (error) {
         console.log(error);
+        localStorage.removeItem("token");
       });
   }
   return (

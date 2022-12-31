@@ -30,7 +30,6 @@ export default function Home() {
       data.name = data.name.substring(0, 20) + " ...";
     }
   });
-
   return (
     <React.Fragment>
       <Slider></Slider>
@@ -42,49 +41,49 @@ export default function Home() {
 
           flexFlow: "row wrap",
         }}
-        key={data.id}
       >
-        {data.map((data) => (
-          <Card
-            sx={{ margin: "5vh 2vw" }}
-            w='300px'
-            h='48vh'
-            shadow='sm'
-            p='lg'
-            radius='md'
-            withBorder
-            key={data.id}
-          >
-            <Card.Section>
-              <Image src={data.img} height={160} alt='Norway' />
-            </Card.Section>
-
-            <Group position='apart' mt='md' mb='xs'>
-              <Text weight={500}>{data.name}</Text>
-              <Badge color='pink' variant='light'>
-                On Sale
-              </Badge>
-            </Group>
-
-            <Text size='xl' color='red'>
-              {data.price}
-            </Text>
-            <Link
-              to={`/buy/${data.id}/${data.name}`}
-              style={{ textDecoration: "none" }}
+        {data != null &&
+          data.map((data) => (
+            <Card
+              sx={{ margin: "5vh 2vw" }}
+              w='300px'
+              h='48vh'
+              shadow='sm'
+              p='lg'
+              radius='md'
+              withBorder
+              key={data.id}
             >
-              <Button
-                variant='light'
-                color='blue'
-                fullWidth
-                mt='md'
-                radius='md'
+              <Card.Section>
+                <Image src={data.img} height={160} alt='Norway' />
+              </Card.Section>
+
+              <Group position='apart' mt='md' mb='xs'>
+                <Text weight={500}>{data.name}</Text>
+                <Badge color='pink' variant='light'>
+                  On Sale
+                </Badge>
+              </Group>
+
+              <Text size='xl' color='red'>
+                {data.price}
+              </Text>
+              <Link
+                to={`/buy/${data.id}/${data.name}`}
+                style={{ textDecoration: "none" }}
               >
-                Buy Now
-              </Button>
-            </Link>
-          </Card>
-        ))}
+                <Button
+                  variant='light'
+                  color='blue'
+                  fullWidth
+                  mt='md'
+                  radius='md'
+                >
+                  Buy Now
+                </Button>
+              </Link>
+            </Card>
+          ))}
       </div>
     </React.Fragment>
   );
