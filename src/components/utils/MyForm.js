@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useForm } from "@mantine/form";
-import { TextInput, Button, Box, Code } from "@mantine/core";
+import { TextInput, Button, Box } from "@mantine/core";
 import axios from "axios";
 export default function MyForm() {
   const [submittedValues, setSubmittedValues] = useState("");
-
   const form = useForm({
     initialValues: {
       img: "",
@@ -31,11 +30,23 @@ export default function MyForm() {
     }),
   });
   function handleSubmit() {
-    console.log(JSON.parse(submittedValues));
+    console.log();
+    console.log(JSON.parse(submittedValues).author);
+
     axios
-      .post("http://localhost:8888/create/product", JSON.parse(submittedValues))
+      .post("http://localhost:8888/create/product", {
+        author: JSON.parse(submittedValues).author,
+        name: JSON.parse(submittedValues).name,
+        brand: JSON.parse(submittedValues).brand,
+        category: JSON.parse(submittedValues).category,
+        img: JSON.parse(submittedValues).img,
+        suplier: JSON.parse(submittedValues).suplier,
+        original: JSON.parse(submittedValues).original,
+        price: JSON.parse(submittedValues).price,
+        quantity: JSON.parse(submittedValues).quantity,
+      })
       .then(function (response) {
-        console.log(response);
+        alert("Add oke");
       })
       .catch(function (error) {
         console.log(error);
@@ -82,11 +93,11 @@ export default function MyForm() {
           {...form.getInputProps("category")}
         />
         <TextInput
-          label='Supplier'
-          placeholder='Supplier'
+          label='suplier'
+          placeholder='suplier'
           mt='md'
           required
-          {...form.getInputProps("supplier")}
+          {...form.getInputProps("suplier")}
         />
         <TextInput
           label='Original'

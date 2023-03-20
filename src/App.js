@@ -10,8 +10,9 @@ import Login from "./components/Login.js";
 import { Routes, Route } from "react-router-dom";
 import NotFoundPage from "./components/utils/NotFoundPage";
 import Footer from "./components/Footer";
-import Cart from "./components/Cart";
 import Order from "./components/Order";
+import MyCart from "./components/MyCart";
+import Cart from "./components/Cart";
 
 function App() {
   return (
@@ -22,10 +23,10 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/cart' element={<Cart />} />
+        <Route path='/cart' element={<MyCart />} />
         <Route path='/buy/:id/*' element={<Buy />} />
-        <Route path='/order/:totalPrice' element={<Order />} />
-        {/* <Route path='/admin' element={<Admin />} /> */}
+        <Route path='/order' element={<Order />} />
+
         {localStorage.getItem("admin") === "admin" && (
           <Route path='/admin' element={<Admin />} />
         )}

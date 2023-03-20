@@ -5,13 +5,10 @@ import { useNavigate } from "react-router-dom";
 import {
   TextInput,
   PasswordInput,
-  Text,
   Paper,
   Group,
   PaperProps,
   Button,
-  Divider,
-  Checkbox,
   Anchor,
   Stack,
 } from "@mantine/core";
@@ -42,59 +39,64 @@ const Login = (props: PaperProps) => {
   });
 
   function handleAuthentication() {
-    // console.log({
-    //   username: form.values.email,
-    //   password: form.values.password,
-    // });
-    axios
-      .post("http://localhost:8888/login", {
-        username: form.values.email,
-        password: form.values.password,
-      })
-      .then(function (response) {
-        console.log(response);
-        localStorage.setItem("token", response.data.data.token);
-        if (response.data.data.username === "admin@gmail.com") {
-          localStorage.setItem("admin", "admin");
-        } else {
-          localStorage.setItem("admin", "");
-        }
-        if (response.data.status == 400) {
-          setSuccess("failed");
-        } else if (localStorage.getItem("admin") === "admin") {
-          navigate("/admin");
-        } else {
+    if (type === "register") {
+      console.log(
+        form.values.email,
+        form.values.password,
+        form.values.repassword,
+      );
+      axios
+        .post("http://localhost:8888/register", {
+          username: form.values.email,
+          password: form.values.password,
+          confirm_password: form.values.password,
+        })
+        .then(function (response) {
           navigate("/home");
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-        localStorage.removeItem("token");
-      });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      axios
+        .post("http://localhost:8888/login", {
+          username: form.values.email,
+          password: form.values.password,
+        })
+        .then(function (response) {
+          console.log(response);
+          if (response.data.data == null) {
+            setSuccess("failed");
+          }
+          localStorage.setItem("token", response.data.data.token);
+          if (response.data.data.username === "admin@gmail.com") {
+            localStorage.setItem("admin", "admin");
+          } else {
+            localStorage.setItem("admin", "");
+          }
+          if (localStorage.getItem("admin") === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/home");
+          }
+        })
+        .catch(function (error) {
+          alert("login failed");
+          console.log(error);
+          localStorage.removeItem("token");
+        });
+    }
   }
   return (
     <div style={{ padding: "10vh 30vw" }}>
       <Paper radius='md' p='xl' withBorder {...props}>
-        <Text size='lg' weight={500}>
-          Welcome to Mantine, {type} with
-        </Text>
-
-        <Group grow mb='md' mt='md'>
-          {/* <GoogleButton radius='xl'>Google</GoogleButton>
-        <TwitterButton radius='xl'>Twitter</TwitterButton> */}
-        </Group>
-
-        <Divider
-          label='Or continue with email'
-          labelPosition='center'
-          my='lg'
-        />
+        <Group grow mb='md' mt='md'></Group>
 
         <form onSubmit={form.onSubmit(() => {})}>
           <Stack>
             <TextInput
               required
-              label='Email'
+              label='Username'
               placeholder='hello@mantine.dev'
               value={form.values.email}
               onChange={(event) =>
@@ -131,20 +133,13 @@ const Login = (props: PaperProps) => {
               />
             )}
             <div style={{ margin: "0 auto", color: "red" }}>
-              {" "}
               {type === "login" && success === "failed" && (
-                <h1>Something is wrong</h1>
+                <h2>Username or password is failed</h2>
+              )}
+              {type !== "login" && success === "failed" && (
+                <h2>Username is existed or password is wrong</h2>
               )}
             </div>
-            {type === "register" && (
-              <Checkbox
-                label='I accept terms and conditions'
-                checked={form.values.terms}
-                onChange={(event) =>
-                  form.setFieldValue("terms", event.currentTarget.checked)
-                }
-              />
-            )}
           </Stack>
 
           <Group position='apart' mt='xl'>

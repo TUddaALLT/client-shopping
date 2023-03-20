@@ -174,20 +174,6 @@ function MyHeader() {
               shadow='md'
               withinPortal
             >
-              <HoverCard.Target>
-                <a href='#' className={classes.link}>
-                  <Center inline>
-                    <Box component='span' mr={5}>
-                      Features
-                    </Box>
-                    <IconChevronDown
-                      size={16}
-                      color={theme.fn.primaryColor()}
-                    />
-                  </Center>
-                </a>
-              </HoverCard.Target>
-
               <HoverCard.Dropdown sx={{ overflow: "hidden" }}>
                 <Group position='apart' px='md'>
                   <Text weight={500}>Features</Text>
@@ -221,18 +207,14 @@ function MyHeader() {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
-            <a href='#' className={classes.link}>
-              Learn
-            </a>
           </Group>
 
           <Group className={classes.hiddenMobile}>
             {/* <DarkMode></DarkMode> */}
             <Button variant='default'>
-              <NotificationOutlined
-                style={{ fontSize: "20px", color: "#08c", cursor: "pointer" }}
-                onClick={handleNotification}
-              />
+              <Link to='/order' className={classes.link}>
+                My Order
+              </Link>
             </Button>
             <Button variant='default'>
               <Link to='/cart' className={classes.link}>
@@ -246,7 +228,6 @@ function MyHeader() {
                 Login
               </Link>
             </Button>
-            <Button>Sign up</Button>
           </Group>
 
           <Burger
@@ -275,26 +256,11 @@ function MyHeader() {
           <a href='#' className={classes.link}>
             Home
           </a>
-          <UnstyledButton className={classes.link} onClick={toggleLinks}>
-            <Center inline>
-              <Box component='span' mr={5}>
-                Features
-              </Box>
-              <IconChevronDown size={16} color={theme.fn.primaryColor()} />
-            </Center>
-          </UnstyledButton>
+          <UnstyledButton
+            className={classes.link}
+            onClick={toggleLinks}
+          ></UnstyledButton>
           <Collapse in={linksOpened}>{links}</Collapse>
-          <a href='#' className={classes.link}>
-            Learn
-          </a>
-          <a href='#' className={classes.link}>
-            Academy
-          </a>
-
-          <Divider
-            my='sm'
-            color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
-          />
 
           <Group position='center' grow pb='xl' px='md'>
             <Button variant='default'>Log in</Button>

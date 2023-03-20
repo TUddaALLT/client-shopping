@@ -1,10 +1,9 @@
-import { NumberInput, Checkbox } from "@mantine/core";
+import { NumberInput, Checkbox, Button } from "@mantine/core";
 import { Col, Divider, Image, Row } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useListState } from "@mantine/hooks";
-import { Button } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
@@ -16,7 +15,6 @@ export default function Cart() {
     axios.interceptors.request.use(
       (config) => {
         config.headers["Authorization"] = `Token ${token}`;
-        config.headers["Access-Control-Allow-Origin"] = "*";
         config.headers["Access-Control-Allow-Origin"] =
           "GET,PUT,POST,DELETE,PATCH,OPTIONS";
         return config;
@@ -41,7 +39,6 @@ export default function Cart() {
     axios.interceptors.request.use(
       (config) => {
         config.headers["Authorization"] = `Token ${token}`;
-        config.headers["Access-Control-Allow-Origin"] = "*";
         config.headers["Access-Control-Allow-Origin"] =
           "GET,PUT,POST,DELETE,PATCH,OPTIONS";
         return config;
@@ -52,15 +49,15 @@ export default function Cart() {
     );
 
     axios
-      .get("http://localhost:8888/cart/mycart")
+      .get(`http://localhost:8888/cart`)
       .then(function (response) {
+        console.log("test");
         for (let i = 0; i < response.data.data.products.length; i++) {
           response.data.data.products[i] = Object.assign(
             response.data.data.products[i],
             { checked: false },
           );
         }
-
         localStorage.setItem(
           "products",
           JSON.stringify(response.data.data.products),
@@ -74,7 +71,7 @@ export default function Cart() {
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  });
 
   //check box
   const [values, handlers] = useListState(
@@ -88,20 +85,20 @@ export default function Cart() {
   let productsOrder = [];
   let cartDetails = JSON.parse(localStorage.getItem("cartDetails"));
 
-  for (let i = 0; i < values.length; i++) {
-    if (values[i].checked) {
+  for (const element of values) {
+    if (element.checked) {
       for (let j = 0; j < cartDetails.length; j++) {
-        if (cartDetails[j].productID === values[i].id) {
-          totalOrder = totalOrder + values[i].price * cartDetails[j].quantity;
+        if (cartDetails[j].productID === element.id) {
+          totalOrder = totalOrder + element.price * cartDetails[j].quantity;
           productsOrder.push({
-            id: values[i].id,
+            id: element.id,
             quantity: cartDetails[j].quantity,
           });
         }
       }
     } else {
-      for (var h = 0; h < productsOrder.length; h++) {
-        if (productsOrder[h].id === values[i].id) {
+      for (let h = 0; h < productsOrder.length; h++) {
+        if (productsOrder[h].id === element.id) {
           productsOrder.removeAt(h);
         }
       }

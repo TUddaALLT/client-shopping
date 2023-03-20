@@ -28,7 +28,6 @@ const Product = (props) => {
     axios.interceptors.request.use(
       (config) => {
         config.headers["Authorization"] = `Token ${token}`;
-        config.headers["Access-Control-Allow-Origin"] = "*";
         config.headers["Access-Control-Allow-Origin"] =
           "GET,PUT,POST,DELETE,PATCH,OPTIONS";
         return config;
@@ -41,8 +40,10 @@ const Product = (props) => {
       .post(`http://localhost:8888/cart/${data.id}/${value}`)
       .then(function (response) {
         console.log(response);
+        alert("add successfully");
       })
       .catch(function (error) {
+        alert("login to add products to cart");
         console.log(error);
       });
   }
@@ -80,9 +81,9 @@ const Product = (props) => {
             >
               Add To Cart
             </Button>
-            <Button variant='light' color='blue' fullWidth mt='md' radius='md'>
+            {/* <Button variant='light' color='blue' fullWidth mt='md' radius='md'>
               Buy Now
-            </Button>
+            </Button> */}
           </Card>
         </Grid.Col>
         <Grid.Col sm={12} lg={8}>
